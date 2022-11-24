@@ -119,15 +119,15 @@ def ai_load_data():
         
         print(history.history.keys())
         
-        plt.figure(figsize= (16, 8))
+   #     plt.figure(figsize= (16, 8))
         
-        plt.plot(history.history['loss'], color= 'black')
+   #     plt.plot(history.history['loss'], color= 'black')
         
-        plt.title('Cost Function Progression')
+   #     plt.title('Cost Function Progression')
         
-        plt.ylabel('Loss')
+    #    plt.ylabel('Loss')
         
-        plt.xlabel('epochs')
+    #    plt.xlabel('epochs')
         
         print(list(Metrics.index[0:]))
         Metrics['epochs'] = list(Metrics.index[0:])
@@ -137,11 +137,17 @@ def ai_load_data():
         metrics_trace_2 = go.Scatter(x=Metrics['epochs'], y = Metrics['Mean_Absolute_Error'], mode = 'lines', name = 'Mean Absolute Error')
         metrics_trace_3 = go.Scatter(x=Metrics['epochs'], y = Metrics['RMSE'], mode = 'lines', name = 'Root Mean Squared Error')
                                      
-        layout_hist = go.Layout(title = 'Loss Metrics across epochs', xaxis= {'title' : 'Epochs'}, yaxis = {'title': 'Value'})
+        layout_hist_1 = go.Layout(title = 'Mean Squared error', xaxis= {'title' : 'Epochs'}, yaxis = {'title': 'Value'})
+        layout_hist_2 = go.Layout(title = 'Mean_Absolute_Error', xaxis= {'title' : 'Epochs'}, yaxis = {'title' : 'Value'})
+        layout_hist_3 = go.Layout(title = 'Root Mean Squared Error', xaxis={'title': 'Epochs'}, yaxis = {'title' : 'Value'})
         
-        fig_hist = go.Figure(data=[metrics_trace_1, metrics_trace_2, metrics_trace_3], layout = layout_hist)
-        
-        fig_hist.show()
+        fig_hist_1 = go.Figure(data=metrics_trace_1, layout = layout_hist_1)
+        fig_hist_2 = go.Figure(data=metrics_trace_2, layout = layout_hist_2)
+        fig_hist_3 = go.Figure(data=metrics_trace_3, layout = layout_hist_3)
+                                                                            
+        fig_hist_1.show()
+        fig_hist_2.show()
+        fig_hist_3.show()
 
         
         print(Metrics)
@@ -173,34 +179,22 @@ def ai_load_data():
         # FUNCTION DEF
         def predict(num_prediction, model):
             prediction_list = close_data[-look_back:]
-
             for i in range(num_prediction):
-               
                 x = prediction_list[-look_back:]
-                
                 x = x.reshape((1, look_back, 1 ))
-                
                 out = model.predict(x)[0][0]
-                
                 prediction_list = np.append(prediction_list, out)
-            
             prediction_list = prediction_list[look_back -1:]
-            
             return prediction_list
 
         def predict_dates(num_prediction):
-            
             last_date = dataset['Date'].values[-1]
-            
             prediction_dates = pd.date_range(last_date, periods=num_prediction+1).tolist()
-            
             return prediction_dates
 
         # PREDICTION N.
         num_prediction = 30
-        
         forecast = predict(num_prediction, model)
-        
         forecast_dates = predict_dates(num_prediction)
 
         # PREDICTION PLOT
@@ -219,15 +213,12 @@ def ai_load_data():
         fig_pred.show()
         
  #       plt.figure(figsize=(16,8))
-        
  #       predict_df.plot(color = 'black')
         
  #       plt.xlabel('Date')
-        
  #       plt.ylabel('Closing Price')
         
- #       plt.title('30 Days Dynamic LSTM prediction ' + str(ticker.value))
-        
+ #       plt.title('30 Days Dynamic LSTM prediction ' + str(ticker.value)) 
  #       plt.show()
         
         print(predict_df)
