@@ -37,8 +37,6 @@ num_epochs = widgets.Dropdown(options=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
 
 select_button = widgets.Button(description='Go', disabled=False, button_style='primary',layout=Layout(margin=('0px 0px 0px 10px'), width = '10%'))
 
-# end_time = widgets.DatePicker(description='Pick an end date', disabled = False, button_style='primary', layout=Layout(margin=('0px 0px 0px 10px'), width = '10%'))
-
 data_output = widgets.Output()
 
 print('1%')
@@ -46,9 +44,8 @@ print('1%')
 # LOAD DATA 
 def ai_load_data():
     h_box = widgets.HBox([start_time, ticker, num_epochs, select_button], layout=Layout(align_items='stretch'), margin='0px 0px 0px 0px')
- #   v_box = widgets.VBox([data_output], layout=Layout(align_items ='stretch'), margin=('0px 0px 0px 0px'))
     display(h_box)
- #   display(v_box)
+
     
     print('2%')
     # CALLABLE FUNCTION
@@ -119,22 +116,14 @@ def ai_load_data():
         
         print(history.history.keys())
         
-   #     plt.figure(figsize= (16, 8))
-        
-   #     plt.plot(history.history['loss'], color= 'black')
-        
-   #     plt.title('Cost Function Progression')
-        
-    #    plt.ylabel('Loss')
-        
-    #    plt.xlabel('epochs')
-        
         print(list(Metrics.index[0:]))
         Metrics['epochs'] = list(Metrics.index[0:])
         print(Metrics.head(5))
-     #   metrics_trace_1 = go.Scatter(x=Metrics['epochs'], y = Metrics['loss'])
+        
         metrics_trace_1 = go.Scatter(x=Metrics['epochs'], y = Metrics['MSE'], mode = 'lines', name = 'Mean Squared Error')
+        
         metrics_trace_2 = go.Scatter(x=Metrics['epochs'], y = Metrics['Mean_Absolute_Error'], mode = 'lines', name = 'Mean Absolute Error')
+        
         metrics_trace_3 = go.Scatter(x=Metrics['epochs'], y = Metrics['RMSE'], mode = 'lines', name = 'Root Mean Squared Error')
                                      
         layout_hist_1 = go.Layout(title = 'Mean Squared error', xaxis= {'title' : 'Epochs'}, yaxis = {'title': 'Value'})
@@ -212,14 +201,6 @@ def ai_load_data():
         
         fig_pred.show()
         
- #       plt.figure(figsize=(16,8))
- #       predict_df.plot(color = 'black')
-        
- #       plt.xlabel('Date')
- #       plt.ylabel('Closing Price')
-        
- #       plt.title('30 Days Dynamic LSTM prediction ' + str(ticker.value)) 
- #       plt.show()
         
         print(predict_df)
         
